@@ -1,0 +1,37 @@
+---
+Docker save and load image (make your images)
+---
+#Commit your container to create your images
+docker commit your-container your-image
+
+#Save and compress your images
+docker save your-image:tag | gzip > your-image.tar.gz
+
+#Load your compressed image to Docker image repo 
+docker load -i your-image.tar.gz
+
+#Create your container with your image
+docker container create --name your-container-name -p 80:80 -p 443:443 -p 7080:7080 your-image:tag
+---
+
+
+---
+Docker copy to container
+---
+#Copy from host to container
+docker cp /path/to/your/file your-container-name:/path/to/your/target
+
+#Copy from container to host
+docker cp your-container-name:/path/to/your/file /path/to/your/target
+---
+
+
+---
+Increase Mapper size
+---
+#Resize your mapper/ubuntu--vg-ubuntu--lv in my example i change to 200GB
+lvextend --size 200G /dev/mapper/ubuntu--vg-ubuntu--lv
+
+#After Resize
+resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+---
