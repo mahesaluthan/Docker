@@ -1,0 +1,40 @@
+version: "3"
+services:
+
+ pg_master:
+  build: ./Masteraster
+  volumes:
+   - pg_data:/var/lib/postgresql/data
+  environment:
+   - POSTGRES_USER=your-name
+   - POSTGRES_PASSWORD=your-password
+   - POSTGRES_DB=your-database
+   - PG_REP_USER=your-replicaton-user
+   - PG_REP_PASSWORD=your-replicaton-password
+  expose:
+   - 5432
+  ports:
+   - 5432:5432
+  networks:
+    default:
+      aliases:
+       - pg_cluster
+
+ pg_slave:
+  build: ./Slave
+  environment:
+   - POSTGRES_USER=your-name
+   - POSTGRES_PASSWORD=your-password
+   - POSTGRES_DB=your-database
+   - PG_REP_USER=your-replicaton-user
+   - PG_REP_PASSWORD=your-replicaton-password
+  expose:
+   - 5432
+  ports:
+   - 1000-1100:5432
+  networks:
+    default:
+      aliases:
+       - pg_cluster
+volumes:
+ pg_data:
